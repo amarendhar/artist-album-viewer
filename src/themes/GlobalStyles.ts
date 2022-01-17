@@ -1,0 +1,31 @@
+import { createGlobalStyle } from 'styled-components'
+import { theme } from './ThemeProvider'
+
+const GlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    font-family: Open-Sans, Sans-Serif, Helvetica;
+    min-height: 100vh;
+    color: white;
+  }
+
+  #root {
+    position: relative;
+    
+    display: flex;
+    flex-direction: column;
+    
+    padding-bottom: 40px;
+    background-color: ${({ theme }) => theme.palette.primary.main};
+  }
+`
+
+export default GlobalStyle
