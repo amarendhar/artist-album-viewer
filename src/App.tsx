@@ -26,5 +26,4 @@ const Container = styled.main`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `

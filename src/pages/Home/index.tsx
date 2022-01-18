@@ -1,24 +1,25 @@
-import { Loader } from 'components'
-import { Retry } from 'containers'
 import React from 'react'
-import { Status } from 'types'
-import useHome from './useHome'
+import styled from 'styled-components'
+import Search from 'containers/Search'
+// import useHome from './useHome'
 
 const Home = () => {
-  const { status, error, data, getArtist, selectedArtist, handleSelectArtist } =
-    useHome()
-
-  console.log('data -> ', data)
-
-  if (status === Status.PENDING) {
-    return <Loader />
-  }
+  // const {} = useHome()
 
   return (
-    <div data-testid="home-page">
-      {error ? <Retry onRetry={getArtist} /> : <div>Home</div>}
-    </div>
+    <Container data-testid="home-page">
+      <Search />
+    </Container>
   )
 }
 
 export default Home
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+
+  max-width: 1200px;
+  width: 100%;
+  padding: ${({ theme }) => theme.space.lg}px;
+`
