@@ -5,13 +5,16 @@ import {
   Middleware,
 } from '@reduxjs/toolkit'
 import reduxLogger from 'redux-logger'
+import artistReducer from 'store/slices/artistSlice'
 
 const middlewares: Middleware[] = []
 if (process.env.NODE_ENV === 'development') {
   middlewares.push(reduxLogger)
 }
 
-export const rootReducer = {}
+export const rootReducer = {
+  artists: artistReducer,
+}
 
 export const store = configureStore({
   reducer: rootReducer,
