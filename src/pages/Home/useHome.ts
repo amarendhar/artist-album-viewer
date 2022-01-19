@@ -1,5 +1,12 @@
+import { useState } from 'react'
+
 const useHome = () => {
-  return {}
+  const [selectedArtist, setSelectedArtist] = useState('')
+
+  return {
+    setSelectedArtist,
+    selectedArtist,
+  }
 }
 
 export default useHome

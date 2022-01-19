@@ -1,14 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import Search from 'containers/Search'
-// import useHome from './useHome'
+import AlbumViewer from './AlbumViewer'
+import Search from './Search'
+import useHome from './useHome'
 
 const Home = () => {
-  // const {} = useHome()
+  const { setSelectedArtist, selectedArtist } = useHome()
 
   return (
     <Container data-testid="home-page">
-      <Search />
+      <Search setSelectedArtist={setSelectedArtist} />
+      {selectedArtist && <AlbumViewer selectedArtist={selectedArtist} />}
     </Container>
   )
 }
@@ -17,6 +19,7 @@ export default Home
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
 
   max-width: 1200px;

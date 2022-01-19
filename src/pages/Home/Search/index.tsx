@@ -1,38 +1,28 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Status } from 'types'
+import { Clear } from 'components'
 import useSearch from './useSearch'
+import { Status } from 'types'
 
-const Search = () => {
+type SearchProps = {
+  setSelectedArtist: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Search = ({ setSelectedArtist }: SearchProps) => {
   const {
     onChange,
     onClear,
-    onSelectArtist,
     onSubmit,
+    onSelectArtist,
     status,
+    error,
+    text,
     artists,
     total,
-    text,
-  } = useSearch()
-
-  const onSubmitHandler = useCallback(
-    (e) => {
-      e.preventDefault()
-      onSubmit()
-    },
-    [onSubmit]
-  )
-
-  const onSelectArtistHandler = useCallback(
-    (id) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault()
-      onSelectArtist(id)
-    },
-    [onSelectArtist]
-  )
+  } = useSearch({ setSelectedArtist })
 
   return (
-    <Container onSubmit={onSubmitHandler}>
+    <Container onSubmit={onSubmit}>
       <InputContainer data-testid="search-form">
         <Input
           data-testid="search-input"
@@ -41,7 +31,8 @@ const Search = () => {
           value={text}
           onChange={onChange}
         />
-        {status === Status.PENDING && <Spinner />}
+        {status === Status.PENDING && <Spinner data-testid="spinner" />}
+        {/* Similar to NotFound-Component, add Retry-Component on Error */}
         {total === 0 && status === Status.FULFILLED && (
           <NotFound data-testid="not-found">
             Search results not found for {text}, try with different artist name
@@ -49,10 +40,8 @@ const Search = () => {
         )}
         {status === Status.FULFILLED && artists.length > 0 && (
           <>
-            {/* type-button & type-submit should be defined when a form has multiple buttons */}
-            <Clear data-testid="search-clear" type="button" onClick={onClear}>
-              X
-            </Clear>
+            {/* Except type-submit-button all other buttons should have type-button-attr when a form has multiple buttons to trigger onSubmit handler properly */}
+            <Clear onClear={onClear} />
             <SearchResults data-testid="search-results">
               <Arrow />
               <Title data-testid="search-results-title">Search results</Title>
@@ -63,7 +52,10 @@ const Search = () => {
                     key={id}
                     // href-with-# is important to enable accessibility & anchor-tag behavior
                     href="#"
-                    onClick={onSelectArtistHandler(id)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onSelectArtist(name)
+                    }}
                   >
                     {name}
                   </Artist>
@@ -135,22 +127,10 @@ const NotFound = styled.div`
   color: #8b8b8b;
 `
 
-const Clear = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  border: 0;
-  border-radius: 50%;
-  padding: 12px 16px;
-
-  background-color: transparent;
-  font-size: 25px;
-  cursor: pointer;
-`
-
 const SearchResults = styled.div`
-  position: relative;
+  position: absolute;
+  top: 70px;
+
   display: flex;
   flex-direction: column;
 
@@ -158,11 +138,12 @@ const SearchResults = styled.div`
   border-radius: ${({ theme }) => theme.radii.sm}px;
   padding: ${({ theme }) => theme.space.lg}px;
   padding-top: 0;
-  margin-top: ${({ theme }) => theme.space.lg}px;
 
   background-color: #2c2c2c;
   color: #8b8b8b;
   font-size: ${({ theme }) => theme.fontSizes.lg}px;
+
+  z-index: 999;
 `
 
 const Arrow = styled.div`

@@ -1,12 +1,13 @@
 import { renderHook, act } from 'utils/test-utils-hook'
 import { rest } from 'msw'
 import { server } from 'mocks/server'
-import mockArtist from 'mocks/mockArtist'
+import mockArtists from 'mocks/mockArtists'
 import useSearch, { DEBOUNCE_DELAY } from './useSearch'
 import { Status } from 'types'
 import { waitFor } from '@testing-library/dom'
 
 describe('useSearch', () => {
+  const setSelectedArtist = jest.fn()
   const defaultProps = {
     onChange: expect.any(Function),
     onClear: expect.any(Function),
@@ -17,20 +18,25 @@ describe('useSearch', () => {
     text: '',
     artists: [],
     total: null,
-    selectedArtist: '',
   }
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('Should return initial state', () => {
-    const { result } = renderHook(() => useSearch())
+    const { result } = renderHook(() => useSearch({ setSelectedArtist }))
 
     expect(result.current).toEqual(defaultProps)
   })
 
   it('Should fetch artists-data onChange of text', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useSearch())
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useSearch({ setSelectedArtist })
+    )
 
     act(() => {
-      result.current.onChange({ target: { value: 'Prince' } })
+      result.current.onChange({ target: { value: 'Eminem' } })
     })
 
     await waitForNextUpdate()
@@ -38,7 +44,7 @@ describe('useSearch', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       status: Status.PENDING,
-      text: 'Prince',
+      text: 'Eminem',
     })
 
     await waitForNextUpdate()
@@ -46,24 +52,26 @@ describe('useSearch', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       status: Status.FULFILLED,
-      text: 'Prince',
-      artists: mockArtist.data,
-      total: mockArtist.data.length,
+      text: 'Eminem',
+      artists: mockArtists.data,
+      total: mockArtists.data.length,
     })
   })
 
   it('Should fetch artists-data only once with last-updated-text, when multiple times text is changed within DEBOUNCE_DELAY', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useSearch())
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useSearch({ setSelectedArtist })
+    )
 
     act(() => {
-      result.current.onChange({ target: { value: 'Prince' } })
+      result.current.onChange({ target: { value: 'Eminem' } })
 
       setTimeout(() => {
-        result.current.onChange({ target: { value: 'Prince Prince' } })
+        result.current.onChange({ target: { value: 'Eminem Eminem' } })
       }, DEBOUNCE_DELAY * 1 - 50)
 
       setTimeout(() => {
-        result.current.onChange({ target: { value: 'Prince Prince Prince' } })
+        result.current.onChange({ target: { value: 'Eminem Eminem Eminem' } })
       }, DEBOUNCE_DELAY * 2 - 50)
     })
 
@@ -71,14 +79,14 @@ describe('useSearch', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      text: 'Prince Prince',
+      text: 'Eminem Eminem',
     })
 
     await waitForNextUpdate()
 
     expect(result.current).toEqual({
       ...defaultProps,
-      text: 'Prince Prince Prince',
+      text: 'Eminem Eminem Eminem',
     })
 
     await waitForNextUpdate()
@@ -86,7 +94,7 @@ describe('useSearch', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       status: Status.PENDING,
-      text: 'Prince Prince Prince',
+      text: 'Eminem Eminem Eminem',
     })
 
     await waitForNextUpdate()
@@ -94,17 +102,19 @@ describe('useSearch', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       status: Status.FULFILLED,
-      text: 'Prince Prince Prince',
-      artists: mockArtist.data,
-      total: mockArtist.data.length,
+      text: 'Eminem Eminem Eminem',
+      artists: mockArtists.data,
+      total: mockArtists.data.length,
     })
   })
 
-  it('Should update selectedArtist, when an artist-item is selected from the list', async () => {
-    const { result, waitForNextUpdate } = renderHook(() => useSearch())
+  it('Should invoke setSelectedArtist, when an artist-item is selected from the list', async () => {
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useSearch({ setSelectedArtist })
+    )
 
     act(() => {
-      result.current.onChange({ target: { value: 'Prince' } })
+      result.current.onChange({ target: { value: 'Eminem' } })
     })
 
     await waitForNextUpdate()
@@ -113,23 +123,16 @@ describe('useSearch', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       status: Status.FULFILLED,
-      text: 'Prince',
-      artists: mockArtist.data,
-      total: mockArtist.data.length,
+      text: 'Eminem',
+      artists: mockArtists.data,
+      total: mockArtists.data.length,
     })
 
     act(() => {
-      result.current.onSelectArtist(mockArtist.data[0].id)
+      result.current.onSelectArtist(mockArtists.data[0].id)
     })
 
-    expect(result.current).toEqual({
-      ...defaultProps,
-      status: Status.FULFILLED,
-      text: 'Prince',
-      artists: mockArtist.data,
-      selectedArtist: mockArtist.data[0].id,
-      total: mockArtist.data.length,
-    })
+    expect(setSelectedArtist).toHaveBeenCalledWith(mockArtists.data[0].id)
   })
 
   it('Should handle error-response from API', async () => {
@@ -147,10 +150,12 @@ describe('useSearch', () => {
       })
     )
 
-    const { result, waitForNextUpdate } = renderHook(() => useSearch())
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useSearch({ setSelectedArtist })
+    )
 
     act(() => {
-      result.current.onChange({ target: { value: 'Prince' } })
+      result.current.onChange({ target: { value: 'Eminem' } })
     })
 
     await waitForNextUpdate()
@@ -160,7 +165,7 @@ describe('useSearch', () => {
         ...defaultProps,
         status: Status.REJECTED,
         error: 'Data not found',
-        text: 'Prince',
+        text: 'Eminem',
       })
     })
   })

@@ -1,0 +1,72 @@
+import { renderHook } from 'utils/test-utils-hook'
+import { rest } from 'msw'
+import { server } from 'mocks/server'
+import mockAlbums from 'mocks/mockAlbums'
+import useAlbumViewer from './useAlbumViewer'
+import { Status } from 'types'
+import { waitFor } from '@testing-library/dom'
+
+describe('useAlbumViewer', () => {
+  const selectedArtist = ''
+  const defaultProps = {
+    status: Status.IDLE,
+    error: null,
+    albums: [],
+    total: null,
+  }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('Should return initial state', () => {
+    const { result } = renderHook(() => useAlbumViewer({ selectedArtist }))
+
+    expect(result.current).toEqual(defaultProps)
+  })
+
+  it('Should fetch albums-data onChange of text', async () => {
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useAlbumViewer({ selectedArtist: 'Eminem' })
+    )
+
+    await waitForNextUpdate()
+
+    expect(result.current).toEqual({
+      ...defaultProps,
+      status: Status.FULFILLED,
+      albums: mockAlbums.data,
+      total: mockAlbums.data.length,
+    })
+  })
+
+  it('Should handle error-response from API', async () => {
+    // Note: To mock error-responses, refer https://mswjs.io/docs/recipes/mocking-error-responses
+    server.use(
+      rest.get('/search/album/', (req, res, ctx) => {
+        return res(
+          // Send a valid HTTP status code
+          ctx.status(403),
+          // And a response body, if necessary
+          ctx.json({
+            errorMessage: `Data not found`,
+          })
+        )
+      })
+    )
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useAlbumViewer({ selectedArtist: 'not-found-artist' })
+    )
+
+    await waitForNextUpdate()
+
+    await waitFor(() => {
+      expect(result.current).toEqual({
+        ...defaultProps,
+        status: Status.REJECTED,
+        error: 'Data not found',
+      })
+    })
+  })
+})

@@ -5,26 +5,30 @@ import { Status } from 'types'
 
 export const DEBOUNCE_DELAY = 500
 
+type UseSearchProps = {
+  setSelectedArtist: React.Dispatch<React.SetStateAction<string>>
+}
+
 type UseSearchReturnProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClear: () => void
-  onSubmit: () => void
-  onSelectArtist: (id: string) => void
+  onSubmit: (e: React.SyntheticEvent) => void
+  onSelectArtist: (selectedArtist: string) => void
   status: Status
   error: string | null | undefined
   text: string
   artists: Artist['data']
-  total: number | null | undefined
-  selectedArtist: string
+  total: number | null
 }
 
 // ToDo: Add return-type
-const useSearch = (): UseSearchReturnProps => {
+const useSearch = ({
+  setSelectedArtist,
+}: UseSearchProps): UseSearchReturnProps => {
   const { status, error, data } = useAppSelector(selectArtist)
   const dispatch = useAppDispatch()
   const [text, setText] = useState('')
   const [queryText, setQueryText] = useState('')
-  const [selectedArtist, setSelectedArtist] = useState('')
 
   const onChange = useCallback(
     (e) => {
@@ -50,18 +54,27 @@ const useSearch = (): UseSearchReturnProps => {
     setText('')
   }, [setText])
 
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      if (text) {
+        dispatch(fetchArtists(text))
+      }
+    },
+    [text, dispatch]
+  )
+
   const onSelectArtist = useCallback(
-    (id) => {
-      setSelectedArtist(id)
+    (selectedArtist) => {
+      setText('')
+      setSelectedArtist(selectedArtist)
     },
     [setSelectedArtist]
   )
 
-  const onSubmit = useCallback(() => {
-    if (text) {
-      dispatch(fetchArtists(text))
-    }
-  }, [text, dispatch])
+  const isFetchCompleted =
+    text === queryText && queryText && status === Status.FULFILLED
 
   return {
     onChange,
@@ -71,15 +84,8 @@ const useSearch = (): UseSearchReturnProps => {
     status,
     error,
     text,
-    artists:
-      text === queryText && queryText && status === Status.FULFILLED
-        ? data?.data || []
-        : [],
-    total:
-      text === queryText && queryText && status === Status.FULFILLED
-        ? data?.data?.length
-        : null,
-    selectedArtist,
+    artists: isFetchCompleted ? data?.data || [] : [],
+    total: isFetchCompleted ? data?.data?.length : null,
   }
 }
 

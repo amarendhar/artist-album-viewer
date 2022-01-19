@@ -1,4 +1,4 @@
-const mockArtist = {
+const mockArtists = {
   data: [
     {
       id: 13,
@@ -480,4 +480,4 @@ const mockArtist = {
   next: 'https://api.deezer.com/search/artist/?q=eminem&output=json&index=25',
 }
 
-export default mockArtist
+export default mockArtists

@@ -29,3 +29,5 @@ To run prettier & test-cases for the staged-files.
   - https://developers.deezer.com/api
   - https://api.deezer.com/search/artist/?q=eminem&output=json
   - https://api.deezer.com/search/artist/?q=eminem&index=0&limit=2&output=json
+  - https://api.deezer.com/search/album/?q=eminem&output=json
+  - https://api.deezer.com/search/album/?q=eminem&index=0&limit=2&output=json

@@ -8,4 +8,12 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   )
+
+  app.use(
+    '/search/album/',
+    createProxyMiddleware({
+      target: 'https://api.deezer.com',
+      changeOrigin: true,
+    })
+  )
 }

@@ -1,16 +1,16 @@
-import mockArtists from 'mocks/mockArtists'
+import mockAlbums from 'mocks/mockAlbums'
 import { Status } from 'types'
-import artistReducer, { ArtistState, Artist, fetchArtists } from './artistSlice'
+import albumReducer, { AlbumState, Album, fetchAlbums } from './albumSlice'
 
-describe('artist reducer', () => {
-  const initialState: ArtistState = {
-    data: {} as Artist,
+describe('album reducer', () => {
+  const initialState: AlbumState = {
+    data: {} as Album,
     status: Status.IDLE,
     error: null,
   }
 
   it('Should handle initial-state', () => {
-    expect(artistReducer(undefined, { type: 'unknown' })).toEqual({
+    expect(albumReducer(undefined, { type: 'unknown' })).toEqual({
       data: {},
       status: Status.IDLE,
       error: null,
@@ -18,8 +18,8 @@ describe('artist reducer', () => {
   })
 
   it('Should handle pending', () => {
-    const actual = artistReducer(initialState, {
-      type: fetchArtists.pending,
+    const actual = albumReducer(initialState, {
+      type: fetchAlbums.pending,
     })
 
     expect(actual).toEqual({
@@ -30,13 +30,13 @@ describe('artist reducer', () => {
   })
 
   it('Should handle fulfilled', () => {
-    const actual = artistReducer(initialState, {
-      type: fetchArtists.fulfilled,
-      payload: mockArtists,
+    const actual = albumReducer(initialState, {
+      type: fetchAlbums.fulfilled,
+      payload: mockAlbums,
     })
 
     expect(actual).toEqual({
-      data: mockArtists,
+      data: mockAlbums,
       status: Status.FULFILLED,
       error: null,
     })
@@ -45,8 +45,8 @@ describe('artist reducer', () => {
   it('Should handle rejected', () => {
     const error = new Error('Data not found')
 
-    const actual = artistReducer(initialState, {
-      type: fetchArtists.rejected,
+    const actual = albumReducer(initialState, {
+      type: fetchAlbums.rejected,
       payload: error.message,
     })
 
