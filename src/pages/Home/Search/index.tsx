@@ -47,18 +47,19 @@ const Search = ({ setSelectedArtist }: SearchProps) => {
               <Title data-testid="search-results-title">Search results</Title>
               <Artists>
                 {artists.map(({ id, name }) => (
-                  <Artist
-                    data-testid="artist-item"
-                    key={id}
-                    // href-with-# is important to enable accessibility & anchor-tag behavior
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      onSelectArtist(name)
-                    }}
-                  >
-                    {name}
-                  </Artist>
+                  <ArtistContainer key={id}>
+                    <Artist
+                      data-testid="artist-item"
+                      // href-with-# is important to enable accessibility & anchor-tag behavior
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        onSelectArtist(name)
+                      }}
+                    >
+                      {name}
+                    </Artist>
+                  </ArtistContainer>
                 ))}
               </Artists>
             </SearchResults>
@@ -162,7 +163,11 @@ const Title = styled.h4`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `
 
-const Artists = styled.div`
+const Artists = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
   display: flex;
   flex-direction: column;
 
@@ -171,13 +176,22 @@ const Artists = styled.div`
   overflow-y: auto;
 `
 
-const Artist = styled.a`
-  padding: ${({ theme }) => theme.space.md}px;
+const ArtistContainer = styled.li`
   padding-left: ${({ theme }) => theme.space.xxl}px;
   border-bottom: 1px solid #1c1c1c;
+`
+
+const Artist = styled.a`
+  display: flex;
+
+  padding: ${({ theme }) => theme.space.md}px;
 
   text-decoration: none;
   color: #8b8b8b;
+
+  &:hover {
+    color: white;
+  }
 `
 
 const Button = styled.button`

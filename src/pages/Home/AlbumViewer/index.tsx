@@ -2,14 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 import { Spinner } from 'components'
 import useAlbumViewer from './useAlbumViewer'
+import { Album } from 'store/slices/albumSlice'
 import { Status } from 'types'
 
 type AlbumViewerProps = {
   selectedArtist: string
+  setSelectedAlbum: React.Dispatch<
+    React.SetStateAction<Partial<Album['data'][0]>>
+  >
 }
 
-const AlbumViewer = ({ selectedArtist }: AlbumViewerProps) => {
-  const { status, albums, total } = useAlbumViewer({ selectedArtist })
+const AlbumViewer = ({
+  selectedArtist,
+  setSelectedAlbum,
+}: AlbumViewerProps) => {
+  const { onSelectAlbum, status, albums, total } = useAlbumViewer({
+    selectedArtist,
+    setSelectedAlbum,
+  })
 
   return (
     <Container>
@@ -34,19 +44,21 @@ const AlbumViewer = ({ selectedArtist }: AlbumViewerProps) => {
       {status === Status.FULFILLED && albums.length > 0 && (
         <Albums data-testid="album-results">
           {albums.map(({ id, title, cover }) => (
-            <Album
-              data-testid="album-item"
-              key={id}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-              }}
-            >
-              <ImgContainer>
-                <Img alt={title} src={cover} />
-              </ImgContainer>
-              <AlbumTitle>{title}</AlbumTitle>
-            </Album>
+            <AlbumItemContainer key={id}>
+              <AlbumItem
+                data-testid="album-item"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  onSelectAlbum({ id, title, cover })
+                }}
+              >
+                <ImgContainer>
+                  <Img alt={title} src={cover} />
+                </ImgContainer>
+                <AlbumTitle>{title}</AlbumTitle>
+              </AlbumItem>
+            </AlbumItemContainer>
           ))}
         </Albums>
       )}
@@ -94,14 +106,20 @@ const NotFound = styled.div`
   color: #8b8b8b;
 `
 
-const Albums = styled.div`
+const Albums = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0 ${({ theme }) => theme.space.lg}px;
+
   display: flex;
   grid-column-gap: ${({ theme }) => theme.space.xl}px;
 
   overflow-x: auto;
 `
 
-const Album = styled.a`
+const AlbumItemContainer = styled.li``
+
+const AlbumItem = styled.a`
   text-decoration: none;
   color: #00ffff;
 
@@ -124,5 +142,8 @@ const Img = styled.img`
 `
 
 const AlbumTitle = styled.h4`
+  margin: ${({ theme }) => theme.space.md}px;
+
   text-align: center;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `

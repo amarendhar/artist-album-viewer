@@ -7,6 +7,7 @@ import {
 import reduxLogger from 'redux-logger'
 import artistReducer from 'store/slices/artistSlice'
 import albumReducer from 'store/slices/albumSlice'
+import trackReducer from 'store/slices/trackSlice'
 
 const middlewares: Middleware[] = []
 if (process.env.NODE_ENV === 'development') {
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV === 'development') {
 export const rootReducer = {
   artists: artistReducer,
   albums: albumReducer,
+  tracks: trackReducer,
 }
 
 export const store = configureStore({

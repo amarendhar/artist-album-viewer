@@ -1,16 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 import AlbumViewer from './AlbumViewer'
+import TrackViewer from './TrackViewer'
 import Search from './Search'
 import useHome from './useHome'
 
 const Home = () => {
-  const { setSelectedArtist, selectedArtist } = useHome()
+  const { setSelectedArtist, selectedArtist, setSelectedAlbum, selectedAlbum } =
+    useHome()
 
   return (
     <Container data-testid="home-page">
       <Search setSelectedArtist={setSelectedArtist} />
-      {selectedArtist && <AlbumViewer selectedArtist={selectedArtist} />}
+      {selectedArtist && (
+        <AlbumViewer
+          selectedArtist={selectedArtist}
+          setSelectedAlbum={setSelectedAlbum}
+        />
+      )}
+      {selectedAlbum?.id && <TrackViewer selectedAlbum={selectedAlbum} />}
     </Container>
   )
 }

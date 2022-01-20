@@ -27,4 +27,15 @@ export const handlers = [
 
     return res(ctx.json(mockAlbums), ctx.delay(150))
   }),
+
+  rest.get('/album/:albumId/tracks', (req, res, ctx) => {
+    const albumQueryString = req.url.searchParams.get('q')
+    console.log('req.params -> ', req.params)
+
+    if (albumQueryString === 'not-found-artist') {
+      return res(ctx.json(mockAlbumNotFound), ctx.delay(150))
+    }
+
+    return res(ctx.json(mockAlbums), ctx.delay(150))
+  }),
 ]

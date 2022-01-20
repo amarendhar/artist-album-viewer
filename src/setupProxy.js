@@ -16,4 +16,12 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   )
+
+  app.use(
+    '/album/',
+    createProxyMiddleware({
+      target: 'https://api.deezer.com',
+      changeOrigin: true,
+    })
+  )
 }

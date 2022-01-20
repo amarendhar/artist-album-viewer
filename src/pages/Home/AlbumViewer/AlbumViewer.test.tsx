@@ -6,6 +6,7 @@ import mockAlbums from 'mocks/mockAlbums'
 describe('Artist', () => {
   const commonProps = {
     selectedArtist: '',
+    setSelectedAlbum: jest.fn(),
   }
 
   const renderComponent = (customProps = {}) => {

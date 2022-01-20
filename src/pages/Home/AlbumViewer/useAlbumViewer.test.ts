@@ -8,7 +8,9 @@ import { waitFor } from '@testing-library/dom'
 
 describe('useAlbumViewer', () => {
   const selectedArtist = ''
+  const setSelectedAlbum = jest.fn()
   const defaultProps = {
+    onSelectAlbum: expect.any(Function),
     status: Status.IDLE,
     error: null,
     albums: [],
@@ -20,14 +22,16 @@ describe('useAlbumViewer', () => {
   })
 
   it('Should return initial state', () => {
-    const { result } = renderHook(() => useAlbumViewer({ selectedArtist }))
+    const { result } = renderHook(() =>
+      useAlbumViewer({ selectedArtist, setSelectedAlbum })
+    )
 
     expect(result.current).toEqual(defaultProps)
   })
 
   it('Should fetch albums-data onChange of text', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useAlbumViewer({ selectedArtist: 'Eminem' })
+      useAlbumViewer({ selectedArtist: 'Eminem', setSelectedAlbum })
     )
 
     await waitForNextUpdate()
@@ -56,7 +60,7 @@ describe('useAlbumViewer', () => {
     )
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useAlbumViewer({ selectedArtist: 'not-found-artist' })
+      useAlbumViewer({ selectedArtist: 'not-found-artist', setSelectedAlbum })
     )
 
     await waitForNextUpdate()
