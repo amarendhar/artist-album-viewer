@@ -34,4 +34,9 @@ const ClearButton = styled.button<{ color: string }>`
   color: ${({ color }) => color};
   font-size: 25px;
   cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: white;
+  }
 `

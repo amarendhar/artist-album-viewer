@@ -126,6 +126,14 @@ const AlbumItem = styled.a`
   color: #00ffff;
 
   cursor: pointer;
+
+  &:hover,
+  &:focus {
+    img,
+    h4 {
+      opacity: 0.8;
+    }
+  }
 `
 
 const ImgContainer = styled.div`

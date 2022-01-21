@@ -189,7 +189,8 @@ const Artist = styled.a`
   text-decoration: none;
   color: #8b8b8b;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: white;
   }
 `
@@ -205,4 +206,9 @@ const Button = styled.button`
   font-size: ${({ theme }) => theme.fontSizes.md}px;
   text-transform: uppercase;
   cursor: pointer;
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
 `

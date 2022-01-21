@@ -192,5 +192,10 @@ const TrackItem = styled.a`
   grid-template-columns: 180px repeat(4, minmax(100px, 1fr));
 
   text-decoration: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.6);
+
+  &:hover,
+  &:focus {
+    color: rgba(255, 255, 255, 1);
+  }
 `
