@@ -16,7 +16,7 @@ export default Header
 
 const Container = styled.header`
   position: sticky;
-  background-color: white;
+  background-color: black;
   transition: width 300ms;
   z-index: 998;
 
@@ -29,9 +29,9 @@ const Container = styled.header`
 const NavLinkContainer = styled(NavLink)`
   padding: ${({ theme }) => theme.space.md}px;
   text-decoration: none;
-  color: ${({ theme }) => theme.palette.primary.main};
+  color: rgba(255, 255, 255, 0.6);
 
   &:hover {
-    color: ${({ theme }) => theme.palette.primary.dark};
+    color: white;
   }
 `

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import useHome from './useHome'
+import Search from './Search'
 import AlbumViewer from './AlbumViewer'
 import TrackViewer from './TrackViewer'
-import Search from './Search'
-import useHome from './useHome'
 
 const Home = () => {
   const { setSelectedArtist, selectedArtist, setSelectedAlbum, selectedAlbum } =

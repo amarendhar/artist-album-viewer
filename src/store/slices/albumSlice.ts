@@ -18,7 +18,7 @@ export type Album = {
     record_type: string
     tracklist: string
     explicit_lyrics: boolean
-    album: {
+    artist: {
       id: number
       name: string
       link: string

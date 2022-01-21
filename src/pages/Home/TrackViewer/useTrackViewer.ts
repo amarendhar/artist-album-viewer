@@ -25,9 +25,9 @@ const useTrackViewer = ({
     if (selectedAlbum?.id) {
       dispatch(fetchTracks(String(selectedAlbum?.id)))
     }
-  }, [selectedAlbum, dispatch])
+  }, [selectedAlbum?.id, dispatch])
 
-  const isFetchCompleted = selectedAlbum && status === Status.FULFILLED
+  const isFetchCompleted = selectedAlbum?.id && status === Status.FULFILLED
 
   return {
     status,

@@ -1,6 +1,6 @@
+import albumReducer, { AlbumState, Album, fetchAlbums } from './albumSlice'
 import mockAlbums from 'mocks/mockAlbums'
 import { Status } from 'types'
-import albumReducer, { AlbumState, Album, fetchAlbums } from './albumSlice'
 
 describe('album reducer', () => {
   const initialState: AlbumState = {

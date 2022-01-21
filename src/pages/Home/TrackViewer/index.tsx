@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Spinner } from 'components'
 import useTrackViewer from './useTrackViewer'
 import { Album } from 'store/slices/albumSlice'
+import getDuration from 'utils/getDuration'
 import { Status } from 'types'
 
 type TrackViewerProps = {
@@ -13,7 +14,7 @@ const TrackViewer = ({ selectedAlbum }: TrackViewerProps) => {
   const { status, tracks, total } = useTrackViewer({ selectedAlbum })
 
   return (
-    <Container>
+    <Container data-testid="track-viewer">
       <AlbumTrack
         data-testid="album-track"
         onClick={(e) => {
@@ -33,8 +34,8 @@ const TrackViewer = ({ selectedAlbum }: TrackViewerProps) => {
       {/* Similar to NotFound-Component, add Retry-Component on Error */}
       {total === 0 && status === Status.FULFILLED && (
         <NotFound data-testid="not-found">
-          Album results not found for {selectedAlbum}, try with different album
-          name
+          Album results not found for {selectedAlbum?.id}, try with different
+          albumId
         </NotFound>
       )}
       {status === Status.FULFILLED && tracks.length > 0 && (
@@ -49,15 +50,14 @@ const TrackViewer = ({ selectedAlbum }: TrackViewerProps) => {
                 <th>Released</th>
               </Track>
               {tracks.map(({ id, title, artist, duration }, key) => {
-                const minutes = Math.floor(duration / 60)
-                const seconds = duration - minutes * 60
-
                 return (
-                  <Track key={id} data-testid="artist-item">
-                    <td>{key + 1}</td>
-                    <td>{title}</td>
-                    <td>{artist.name}</td>
-                    <td>{`${minutes}:${seconds}`}</td>
+                  <Track key={id} data-testid="track-item">
+                    <td data-testid="track-key">{key + 1}</td>
+                    <td data-testid="track-title">{title}</td>
+                    <td data-testid="track-name">{artist.name}</td>
+                    <td data-testid="track-duration">
+                      {getDuration(duration)}
+                    </td>
                     {/* Couldn't find solution to convert `isrc: 'USIR10211051',` into date */}
                     <td>xxxx</td>
                   </Track>

@@ -1,9 +1,10 @@
 import React from 'react'
 import { render, screen, waitFor } from 'utils/test-utils'
+import pick from 'lodash/pick'
 import AlbumViewer from './index'
 import mockAlbums from 'mocks/mockAlbums'
 
-describe('Artist', () => {
+describe('Album Viewer', () => {
   const commonProps = {
     selectedArtist: '',
     setSelectedAlbum: jest.fn(),
@@ -48,7 +49,23 @@ describe('Artist', () => {
     })
   })
 
-  it('Should render not-found text, when search-results not-found for the query', async () => {
+  it('Should invoke setSelectedAlbum, when clicked on an album-item from the album-results', async () => {
+    renderComponent({ selectedArtist: 'Eminem' })
+
+    screen.getByTestId('spinner')
+
+    await waitFor(() => {
+      screen.getByTestId('album-results')
+    })
+
+    screen.getAllByTestId('album-item')[0].click()
+
+    expect(commonProps.setSelectedAlbum).toHaveBeenCalledWith(
+      pick(mockAlbums.data[0], ['id', 'title', 'cover'])
+    )
+  })
+
+  it('Should render not-found text, when album-results not-found for the query', async () => {
     renderComponent({ selectedArtist: 'not-found-artist' })
 
     await waitFor(() => {

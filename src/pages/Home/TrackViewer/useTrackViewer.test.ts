@@ -1,19 +1,19 @@
 import { renderHook } from 'utils/test-utils-hook'
 import { waitFor } from '@testing-library/dom'
 import { rest } from 'msw'
+import pick from 'lodash/pick'
 import { server } from 'mocks/server'
-import useAlbumViewer from './useAlbumViewer'
+import useTrackViewer from './useTrackViewer'
 import mockAlbums from 'mocks/mockAlbums'
+import mockTracks from 'mocks/mockTracks'
 import { Status } from 'types'
 
-describe('useAlbumViewer', () => {
-  const selectedArtist = ''
-  const setSelectedAlbum = jest.fn()
+describe('useTrackViewer', () => {
+  const selectedAlbum = {}
   const defaultProps = {
-    onSelectAlbum: expect.any(Function),
     status: Status.IDLE,
     error: null,
-    albums: [],
+    tracks: [],
     total: null,
   }
 
@@ -22,16 +22,16 @@ describe('useAlbumViewer', () => {
   })
 
   it('Should return initial state', () => {
-    const { result } = renderHook(() =>
-      useAlbumViewer({ selectedArtist, setSelectedAlbum })
-    )
+    const { result } = renderHook(() => useTrackViewer({ selectedAlbum }))
 
     expect(result.current).toEqual(defaultProps)
   })
 
-  it('Should fetch albums-data onChange of text', async () => {
+  it('Should fetch tracks-data onChange of text', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useAlbumViewer({ selectedArtist: 'Eminem', setSelectedAlbum })
+      useTrackViewer({
+        selectedAlbum: pick(mockAlbums.data[0], ['id', 'title', 'cover']),
+      })
     )
 
     await waitForNextUpdate()
@@ -39,15 +39,15 @@ describe('useAlbumViewer', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       status: Status.FULFILLED,
-      albums: mockAlbums.data,
-      total: mockAlbums.data.length,
+      tracks: mockTracks.data,
+      total: mockTracks.data.length,
     })
   })
 
   it('Should handle error-response from API', async () => {
     // Note: To mock error-responses, refer https://mswjs.io/docs/recipes/mocking-error-responses
     server.use(
-      rest.get('/search/album/', (req, res, ctx) => {
+      rest.get('/album/1234567890/tracks', (req, res, ctx) => {
         return res(
           // Send a valid HTTP status code
           ctx.status(403),
@@ -60,7 +60,12 @@ describe('useAlbumViewer', () => {
     )
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useAlbumViewer({ selectedArtist: 'not-found-artist', setSelectedAlbum })
+      useTrackViewer({
+        selectedAlbum: {
+          ...pick(mockAlbums.data[0], ['id', 'title', 'cover']),
+          id: 1234567890,
+        },
+      })
     )
 
     await waitForNextUpdate()

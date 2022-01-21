@@ -1,10 +1,10 @@
 import { renderHook, act } from 'utils/test-utils-hook'
+import { waitFor } from '@testing-library/dom'
 import { rest } from 'msw'
 import { server } from 'mocks/server'
-import mockArtists from 'mocks/mockArtists'
 import useSearch, { DEBOUNCE_DELAY } from './useSearch'
+import mockArtists from 'mocks/mockArtists'
 import { Status } from 'types'
-import { waitFor } from '@testing-library/dom'
 
 describe('useSearch', () => {
   const setSelectedArtist = jest.fn()

@@ -3,7 +3,7 @@ import { render, screen, waitFor, fireEvent } from 'utils/test-utils'
 import Search from '.'
 import mockArtists from 'mocks/mockArtists'
 
-describe('Artist', () => {
+describe('Search', () => {
   const commonProps = {
     setSelectedArtist: jest.fn(),
   }

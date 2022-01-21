@@ -22,7 +22,7 @@ const AlbumViewer = ({
   })
 
   return (
-    <Container>
+    <Container data-testid="album-viewer">
       <SearchTitle data-testid="search-results-title">
         Search results for "{selectedArtist}"
       </SearchTitle>
