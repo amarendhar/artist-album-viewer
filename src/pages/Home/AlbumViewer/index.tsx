@@ -117,7 +117,9 @@ const Albums = styled.ul`
   overflow-x: auto;
 `
 
-const AlbumItemContainer = styled.li``
+const AlbumItemContainer = styled.li`
+  max-width: 120px;
+`
 
 const AlbumItem = styled.a`
   text-decoration: none;

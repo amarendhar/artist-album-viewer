@@ -14,7 +14,10 @@ type TrackViewerProps = {
   >
 }
 
-const TrackViewer = ({ selectedAlbum, setSelectedTrack }: TrackViewerProps) => {
+const TrackViewerGrid = ({
+  selectedAlbum,
+  setSelectedTrack,
+}: TrackViewerProps) => {
   const { status, tracks, total } = useTrackViewer({ selectedAlbum })
 
   return (
@@ -45,29 +48,35 @@ const TrackViewer = ({ selectedAlbum, setSelectedTrack }: TrackViewerProps) => {
       {status === Status.FULFILLED && tracks.length > 0 && (
         <TrackResults data-testid="track-results">
           <Tracks>
-            <tbody>
-              <TrackItem>
-                <th>#</th>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Time</th>
-                <th>Released</th>
-              </TrackItem>
-              {tracks.map(({ id, title, artist, duration }, key) => {
-                return (
-                  <TrackItem key={id} data-testid="track-item">
-                    <td data-testid="track-key">{key + 1}</td>
-                    <td data-testid="track-title">{title}</td>
-                    <td data-testid="track-name">{artist.name}</td>
-                    <td data-testid="track-duration">
-                      {getDuration(duration)}
-                    </td>
-                    {/* Couldn't find solution to convert `isrc: 'USIR10211051',` into date */}
-                    <td>xxxx</td>
-                  </TrackItem>
-                )
-              })}
-            </tbody>
+            <TrackRowHeader>
+              <span>#</span>
+              <span>Title</span>
+              <span>Artist</span>
+              <span>Time</span>
+              <span>Released</span>
+            </TrackRowHeader>
+            {tracks.map(({ id, title, artist, duration, preview }, key) => {
+              return (
+                <TrackItem
+                  key={id}
+                  data-testid="track-item"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setSelectedTrack({ title, preview })
+                  }}
+                >
+                  <span data-testid="track-key">{key + 1}</span>
+                  <span data-testid="track-title">{title}</span>
+                  <span data-testid="track-name">{artist.name}</span>
+                  <span data-testid="track-duration">
+                    {getDuration(duration)}
+                  </span>
+                  {/* Couldn't find solution to convert `isrc: 'USIR10211051',` into date */}
+                  <span>xxxx</span>
+                </TrackItem>
+              )
+            })}
           </Tracks>
         </TrackResults>
       )}
@@ -75,7 +84,7 @@ const TrackViewer = ({ selectedAlbum, setSelectedTrack }: TrackViewerProps) => {
   )
 }
 
-export default TrackViewer
+export default TrackViewerGrid
 
 const Container = styled.div`
   display: flex;
@@ -133,48 +142,55 @@ const TrackResults = styled.div`
 
   width: 100%;
   border-radius: ${({ theme }) => theme.radii.sm}px;
-  padding: ${({ theme }) => theme.space.lg}px;
-  padding-left: 0;
-  padding-top: 0;
+  padding-bottom: ${({ theme }) => theme.space.lg}px;
   margin-top: -80px;
 
   color: #8b8b8b;
   font-size: ${({ theme }) => theme.fontSizes.lg}px;
 `
 
-const Tracks = styled.table`
-  border-collapse: collapse;
+const Tracks = styled.div`
   color: white;
 
-  tr {
-    background-color: #2c2c2c;
-
-    th:first-child,
-    td:first-child {
-      padding-left: 150px;
-      width: 0;
-    }
-
-    th:not(:first-child),
-    td:not(:first-child) {
-      border-bottom: 1px solid #1c1c1c;
-    }
-  }
-
-  tr:first-child {
+  div {
     background-color: transparent;
   }
 
-  th,
-  td {
-    text-align: left;
-    padding: ${({ theme }) => theme.space.lg}px;
-    font-size: ${({ theme }) => theme.fontSizes.md}px;
+  a {
+    background-color: #2c2c2c;
   }
 
-  overflow-y: auto;
+  span:first-child {
+    padding-left: 150px;
+    border: 0;
+  }
+
+  span {
+    display: inline-block;
+
+    border-bottom: 1px solid #1c1c1c;
+    padding: ${({ theme }) => theme.space.lg}px;
+
+    font-size: ${({ theme }) => theme.fontSizes.md}px;
+    text-align: left;
+  }
+
+  span:nth-child(4),
+  span:nth-child(5) {
+    text-align: center;
+  }
 `
 
-const TrackItem = styled.tr`
-  // border-bottom: 1px solid #1c1c1c;
+const TrackRowHeader = styled.div`
+  display: grid;
+  grid-template-columns: 180px repeat(4, minmax(100px, 1fr));
+  color: white;
+`
+
+const TrackItem = styled.a`
+  display: grid;
+  grid-template-columns: 180px repeat(4, minmax(100px, 1fr));
+
+  text-decoration: none;
+  color: white;
 `

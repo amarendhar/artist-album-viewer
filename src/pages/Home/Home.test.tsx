@@ -21,7 +21,6 @@ describe('Home', () => {
     await waitFor(() => {
       screen.getByTestId('search-results')
     })
-
     screen.getAllByTestId('artist-item')[0].click()
 
     screen.getByTestId('album-viewer')
@@ -37,15 +36,40 @@ describe('Home', () => {
     await waitFor(() => {
       screen.getByTestId('search-results')
     })
-
     screen.getAllByTestId('artist-item')[0].click()
 
     await waitFor(() => {
       screen.getByTestId('album-results')
     })
-
     screen.getAllByTestId('album-item')[0].click()
 
     screen.getByTestId('track-viewer')
+  })
+
+  it('Should render Player-Component When a track is selected from the Track-Results', async () => {
+    render(<Home />)
+
+    const input = screen.getByTestId('search-input')
+
+    fireEvent.change(input, { target: { value: 'Eminem' } })
+
+    await waitFor(() => {
+      screen.getByTestId('search-results')
+    })
+    screen.getAllByTestId('artist-item')[0].click()
+
+    await waitFor(() => {
+      screen.getByTestId('album-results')
+    })
+    screen.getAllByTestId('album-item')[0].click()
+
+    screen.getByTestId('track-viewer')
+
+    await waitFor(() => {
+      screen.getByTestId('track-results')
+    })
+    screen.getAllByTestId('track-item')[0].click()
+
+    screen.getByTestId('player')
   })
 })

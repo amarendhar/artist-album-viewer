@@ -3,11 +3,18 @@ import styled from 'styled-components'
 import useHome from './useHome'
 import ArtistViewer from './ArtistViewer'
 import AlbumViewer from './AlbumViewer'
-import TrackViewer from './TrackViewer'
+import TrackViewerGrid from './TrackViewer/TrackViewerGrid'
+import Player from './Player'
 
 const Home = () => {
-  const { setSelectedArtist, selectedArtist, setSelectedAlbum, selectedAlbum } =
-    useHome()
+  const {
+    setSelectedArtist,
+    selectedArtist,
+    setSelectedAlbum,
+    selectedAlbum,
+    setSelectedTrack,
+    selectedTrack,
+  } = useHome()
 
   return (
     <Container data-testid="home-page">
@@ -18,7 +25,13 @@ const Home = () => {
           setSelectedAlbum={setSelectedAlbum}
         />
       )}
-      {selectedAlbum?.id && <TrackViewer selectedAlbum={selectedAlbum} />}
+      {selectedAlbum?.id && (
+        <TrackViewerGrid
+          selectedAlbum={selectedAlbum}
+          setSelectedTrack={setSelectedTrack}
+        />
+      )}
+      {selectedTrack?.preview && <Player selectedTrack={selectedTrack} />}
     </Container>
   )
 }

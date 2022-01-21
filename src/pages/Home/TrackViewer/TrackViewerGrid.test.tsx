@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor, within } from 'utils/test-utils'
 import pick from 'lodash/pick'
-import TrackViewer from './index'
+import TrackViewerGrid from './TrackViewerGrid'
 import getDuration from 'utils/getDuration'
 import mockAlbums from 'mocks/mockAlbums'
 import mockTracks from 'mocks/mockTracks'
@@ -9,12 +9,13 @@ import mockTracks from 'mocks/mockTracks'
 describe('Track Viewer', () => {
   const commonProps = {
     selectedAlbum: pick(mockAlbums.data[0], ['id', 'title', 'cover']),
+    setSelectedTrack: jest.fn(),
   }
 
   const renderComponent = (customProps = {}) => {
     const props = { ...commonProps, ...customProps }
 
-    return render(<TrackViewer {...props} />)
+    return render(<TrackViewerGrid {...props} />)
   }
 
   it('Should render track-results with track-items, for the given selectedAlbum', async () => {

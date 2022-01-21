@@ -10,6 +10,8 @@ describe('useHome', () => {
     selectedArtist: '',
     setSelectedAlbum: expect.any(Function),
     selectedAlbum: {},
+    setSelectedTrack: expect.any(Function),
+    selectedTrack: {},
   }
 
   beforeEach(() => {
@@ -47,6 +49,21 @@ describe('useHome', () => {
     expect(result.current).toEqual({
       ...defaultProps,
       selectedAlbum: pick(mockAlbums.data[0], ['id', 'title', 'cover']),
+    })
+  })
+
+  it('Should update selectedTrack, when a track is selected ', () => {
+    const { result } = renderHook(() => useHome())
+
+    act(() => {
+      result.current.setSelectedAlbum(
+        pick(mockArtists.data[0], ['title', 'preview'])
+      )
+    })
+
+    expect(result.current).toEqual({
+      ...defaultProps,
+      selectedAlbum: pick(mockArtists.data[0], ['title', 'preview']),
     })
   })
 })
