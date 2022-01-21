@@ -5,11 +5,11 @@ import { Status } from 'types'
 
 export const DEBOUNCE_DELAY = 500
 
-type UseSearchProps = {
+type UseArtistViewerProps = {
   setSelectedArtist: React.Dispatch<React.SetStateAction<string>>
 }
 
-type UseSearchReturnProps = {
+type UseArtistViewerReturnProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onClear: () => void
   onSubmit: (e: React.SyntheticEvent) => void
@@ -22,9 +22,9 @@ type UseSearchReturnProps = {
 }
 
 // ToDo: Add return-type
-const useSearch = ({
+const useArtistViewer = ({
   setSelectedArtist,
-}: UseSearchProps): UseSearchReturnProps => {
+}: UseArtistViewerProps): UseArtistViewerReturnProps => {
   const { status, error, data } = useAppSelector(selectArtist)
   const dispatch = useAppDispatch()
   const [text, setText] = useState('')
@@ -89,4 +89,4 @@ const useSearch = ({
   }
 }
 
-export default useSearch
+export default useArtistViewer

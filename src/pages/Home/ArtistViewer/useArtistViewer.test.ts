@@ -2,11 +2,11 @@ import { renderHook, act } from 'utils/test-utils-hook'
 import { waitFor } from '@testing-library/dom'
 import { rest } from 'msw'
 import { server } from 'mocks/server'
-import useSearch, { DEBOUNCE_DELAY } from './useSearch'
+import useArtistViewer, { DEBOUNCE_DELAY } from './useArtistViewer'
 import mockArtists from 'mocks/mockArtists'
 import { Status } from 'types'
 
-describe('useSearch', () => {
+describe('useArtistViewer', () => {
   const setSelectedArtist = jest.fn()
   const defaultProps = {
     onChange: expect.any(Function),
@@ -25,14 +25,14 @@ describe('useSearch', () => {
   })
 
   it('Should return initial state', () => {
-    const { result } = renderHook(() => useSearch({ setSelectedArtist }))
+    const { result } = renderHook(() => useArtistViewer({ setSelectedArtist }))
 
     expect(result.current).toEqual(defaultProps)
   })
 
   it('Should fetch artists-data onChange of text', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useSearch({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist })
     )
 
     act(() => {
@@ -60,7 +60,7 @@ describe('useSearch', () => {
 
   it('Should fetch artists-data only once with last-updated-text, when multiple times text is changed within DEBOUNCE_DELAY', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useSearch({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist })
     )
 
     act(() => {
@@ -110,7 +110,7 @@ describe('useSearch', () => {
 
   it('Should invoke setSelectedArtist, when an artist-item is selected from the list', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useSearch({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist })
     )
 
     act(() => {
@@ -151,7 +151,7 @@ describe('useSearch', () => {
     )
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useSearch({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist })
     )
 
     act(() => {

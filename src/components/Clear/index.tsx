@@ -9,7 +9,7 @@ type ClearProps = {
 const Clear = ({ onClear = () => {}, color = '#888' }: ClearProps) => {
   return (
     <ClearButton
-      data-testid="search-clear"
+      data-testid="clear-button"
       type="button"
       onClick={onClear}
       color={color}

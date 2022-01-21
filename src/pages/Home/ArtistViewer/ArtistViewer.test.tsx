@@ -1,15 +1,15 @@
 import React from 'react'
 import { render, screen, waitFor, fireEvent } from 'utils/test-utils'
-import Search from '.'
+import ArtistViewer from '.'
 import mockArtists from 'mocks/mockArtists'
 
-describe('Search', () => {
+describe('ArtistViewer', () => {
   const commonProps = {
     setSelectedArtist: jest.fn(),
   }
 
   const renderComponent = () => {
-    return render(<Search {...commonProps} />)
+    return render(<ArtistViewer {...commonProps} />)
   }
 
   it('Should render input-field with submit-button initially', () => {
@@ -19,7 +19,7 @@ describe('Search', () => {
     screen.getByTestId('search-button')
     expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
     expect(screen.queryByTestId('not-found')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('search-clear')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('clear-button')).not.toBeInTheDocument()
     expect(screen.queryByTestId('search-results')).not.toBeInTheDocument()
   })
 
@@ -96,7 +96,7 @@ describe('Search', () => {
       screen.getByTestId('search-results')
     })
 
-    screen.getByTestId('search-clear').click()
+    screen.getByTestId('clear-button').click()
 
     expect(screen.queryByTestId('search-results')).not.toBeInTheDocument()
   })

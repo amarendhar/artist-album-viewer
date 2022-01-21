@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import useHome from './useHome'
-import Search from './Search'
+import ArtistViewer from './ArtistViewer'
 import AlbumViewer from './AlbumViewer'
 import TrackViewer from './TrackViewer'
 
@@ -11,7 +11,7 @@ const Home = () => {
 
   return (
     <Container data-testid="home-page">
-      <Search setSelectedArtist={setSelectedArtist} />
+      <ArtistViewer setSelectedArtist={setSelectedArtist} />
       {selectedArtist && (
         <AlbumViewer
           selectedArtist={selectedArtist}

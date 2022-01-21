@@ -1,14 +1,14 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Clear } from 'components'
-import useSearch from './useSearch'
+import useArtistViewer from './useArtistViewer'
 import { Status } from 'types'
 
-type SearchProps = {
+type ArtistViewerProps = {
   setSelectedArtist: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Search = ({ setSelectedArtist }: SearchProps) => {
+const ArtistViewer = ({ setSelectedArtist }: ArtistViewerProps) => {
   const {
     onChange,
     onClear,
@@ -19,10 +19,10 @@ const Search = ({ setSelectedArtist }: SearchProps) => {
     text,
     artists,
     total,
-  } = useSearch({ setSelectedArtist })
+  } = useArtistViewer({ setSelectedArtist })
 
   return (
-    <Container onSubmit={onSubmit}>
+    <Container onSubmit={onSubmit} data-testid="artist-viewer">
       <InputContainer data-testid="search-form">
         <Input
           data-testid="search-input"
@@ -73,7 +73,7 @@ const Search = ({ setSelectedArtist }: SearchProps) => {
   )
 }
 
-export default Search
+export default ArtistViewer
 
 const Container = styled.form`
   display: flex;

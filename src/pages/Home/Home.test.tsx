@@ -3,10 +3,10 @@ import { render, screen, waitFor, fireEvent } from 'utils/test-utils'
 import Home from '.'
 
 describe('Home', () => {
-  it('Should render only Search-Component initially', () => {
+  it('Should render only ArtistViewer-Component initially', () => {
     render(<Home />)
 
-    screen.getByTestId('search-form')
+    screen.getByTestId('artist-viewer')
     expect(screen.queryByTestId('album-viewer')).not.toBeInTheDocument()
     expect(screen.queryByTestId('track-viewer')).not.toBeInTheDocument()
   })
