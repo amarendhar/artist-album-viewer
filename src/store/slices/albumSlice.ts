@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AppState } from 'store'
-import { Status } from 'types'
+import { API_URL } from 'utils/constants'
+import { STATUS } from 'types'
 
 export type Album = {
   data: {
@@ -37,14 +38,14 @@ export type Album = {
 }
 
 export type AlbumState = {
-  status: Status
+  status: STATUS
   data: Album
   error: string | null | undefined
 }
 
 const initialState: AlbumState = {
   data: {} as Album,
-  status: Status.IDLE,
+  status: STATUS.IDLE,
   error: null,
 }
 
@@ -58,7 +59,9 @@ export const fetchAlbums = createAsyncThunk(
   async (albumQuery: string, { rejectWithValue }) => {
     try {
       // const response = await fetch(`https://api.deezer.com/search/album/?q=eminem&output=json`)
-      const response = await fetch(`/search/album/?q=${albumQuery}&output=json`)
+      const response = await fetch(
+        `${API_URL}/search/album/?q=${albumQuery}&output=json`
+      )
       const data = await response.json()
 
       if (!data || data?.errorMessage) {
@@ -83,16 +86,16 @@ export const albumSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAlbums.pending, (state) => {
-        state.status = Status.PENDING
+        state.status = STATUS.PENDING
         state.error = null
       })
       .addCase(fetchAlbums.fulfilled, (state, action) => {
-        state.status = Status.FULFILLED
+        state.status = STATUS.FULFILLED
         state.data = action.payload
         state.error = null
       })
       .addCase(fetchAlbums.rejected, (state, action) => {
-        state.status = Status.REJECTED
+        state.status = STATUS.REJECTED
         state.data = {} as Album
         state.error = action.payload as string
       })

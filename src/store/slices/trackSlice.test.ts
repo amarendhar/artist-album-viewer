@@ -1,18 +1,18 @@
 import trackReducer, { TrackState, Track, fetchTracks } from './trackSlice'
 import mockTracks from 'mocks/mockTracks'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 describe('track reducer', () => {
   const initialState: TrackState = {
     data: {} as Track,
-    status: Status.IDLE,
+    status: STATUS.IDLE,
     error: null,
   }
 
   it('Should handle initial-state', () => {
     expect(trackReducer(undefined, { type: 'unknown' })).toEqual({
       data: {},
-      status: Status.IDLE,
+      status: STATUS.IDLE,
       error: null,
     })
   })
@@ -24,7 +24,7 @@ describe('track reducer', () => {
 
     expect(actual).toEqual({
       data: {},
-      status: Status.PENDING,
+      status: STATUS.PENDING,
       error: null,
     })
   })
@@ -37,7 +37,7 @@ describe('track reducer', () => {
 
     expect(actual).toEqual({
       data: mockTracks,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       error: null,
     })
   })
@@ -52,7 +52,7 @@ describe('track reducer', () => {
 
     expect(actual).toEqual({
       data: {},
-      status: Status.REJECTED,
+      status: STATUS.REJECTED,
       error: 'Data not found',
     })
   })

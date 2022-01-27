@@ -6,12 +6,12 @@ import { server } from 'mocks/server'
 import useTrackViewer from './useTrackViewer'
 import mockAlbums from 'mocks/mockAlbums'
 import mockTracks from 'mocks/mockTracks'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 describe('useTrackViewer', () => {
   const selectedAlbum = {}
   const defaultProps = {
-    status: Status.IDLE,
+    status: STATUS.IDLE,
     error: null,
     tracks: [],
     total: null,
@@ -38,7 +38,7 @@ describe('useTrackViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       tracks: mockTracks.data,
       total: mockTracks.data.length,
     })
@@ -73,7 +73,7 @@ describe('useTrackViewer', () => {
     await waitFor(() => {
       expect(result.current).toEqual({
         ...defaultProps,
-        status: Status.REJECTED,
+        status: STATUS.REJECTED,
         error: 'Data not found',
       })
     })

@@ -1,18 +1,18 @@
 import artistReducer, { ArtistState, Artist, fetchArtists } from './artistSlice'
 import mockArtists from 'mocks/mockArtists'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 describe('artist reducer', () => {
   const initialState: ArtistState = {
     data: {} as Artist,
-    status: Status.IDLE,
+    status: STATUS.IDLE,
     error: null,
   }
 
   it('Should handle initial-state', () => {
     expect(artistReducer(undefined, { type: 'unknown' })).toEqual({
       data: {},
-      status: Status.IDLE,
+      status: STATUS.IDLE,
       error: null,
     })
   })
@@ -24,7 +24,7 @@ describe('artist reducer', () => {
 
     expect(actual).toEqual({
       data: {},
-      status: Status.PENDING,
+      status: STATUS.PENDING,
       error: null,
     })
   })
@@ -37,7 +37,7 @@ describe('artist reducer', () => {
 
     expect(actual).toEqual({
       data: mockArtists,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       error: null,
     })
   })
@@ -52,7 +52,7 @@ describe('artist reducer', () => {
 
     expect(actual).toEqual({
       data: {},
-      status: Status.REJECTED,
+      status: STATUS.REJECTED,
       error: 'Data not found',
     })
   })

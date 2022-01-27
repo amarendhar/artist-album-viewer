@@ -4,7 +4,7 @@ import { Spinner } from 'components'
 import useTrackViewer from './useTrackViewer'
 import { Album } from 'store/slices/albumSlice'
 import getDuration from 'utils/getDuration'
-import { Status } from 'types'
+import { STATUS } from 'types'
 import { Track } from 'store/slices/trackSlice'
 
 type TrackViewerProps = {
@@ -33,19 +33,19 @@ const TrackViewerGrid = ({
         </ImgContainer>
         <AlbumTitle>{selectedAlbum.title}</AlbumTitle>
       </AlbumTrack>
-      {status === Status.PENDING && (
+      {status === STATUS.PENDING && (
         <SpinnerContainer data-testid="spinner">
           <Spinner />
         </SpinnerContainer>
       )}
       {/* Similar to NotFound-Component, add Retry-Component on Error */}
-      {total === 0 && status === Status.FULFILLED && (
+      {total === 0 && status === STATUS.FULFILLED && (
         <NotFound data-testid="not-found">
           Album results not found for {selectedAlbum?.id}, try with different
           albumId
         </NotFound>
       )}
-      {status === Status.FULFILLED && tracks.length > 0 && (
+      {status === STATUS.FULFILLED && tracks.length > 0 && (
         <TrackResults data-testid="track-results">
           <Tracks>
             <TrackRowHeader>

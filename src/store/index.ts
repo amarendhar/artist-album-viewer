@@ -8,9 +8,10 @@ import reduxLogger from 'redux-logger'
 import artistReducer from 'store/slices/artistSlice'
 import albumReducer from 'store/slices/albumSlice'
 import trackReducer from 'store/slices/trackSlice'
+import { ENV } from 'types'
 
 const middlewares: Middleware[] = []
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
   middlewares.push(reduxLogger)
 }
 

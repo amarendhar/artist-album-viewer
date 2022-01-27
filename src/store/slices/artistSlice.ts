@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AppState } from 'store'
-import { Status } from 'types'
+import { API_URL } from 'utils/constants'
+import { STATUS } from 'types'
 
 export type Artist = {
   data: {
@@ -23,14 +24,14 @@ export type Artist = {
 }
 
 export type ArtistState = {
-  status: Status
+  status: STATUS
   data: Artist
   error: string | null | undefined
 }
 
 const initialState: ArtistState = {
   data: {} as Artist,
-  status: Status.IDLE,
+  status: STATUS.IDLE,
   error: null,
 }
 
@@ -45,7 +46,7 @@ export const fetchArtists = createAsyncThunk(
     try {
       // const response = await fetch(`https://api.deezer.com/search/artist/?q=eminem&output=json`)
       const response = await fetch(
-        `/search/artist/?q=${artistQuery}&output=json`
+        `${API_URL}/search/artist/?q=${artistQuery}&output=json`
       )
       const data = await response.json()
 
@@ -71,16 +72,16 @@ export const artistSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchArtists.pending, (state) => {
-        state.status = Status.PENDING
+        state.status = STATUS.PENDING
         state.error = null
       })
       .addCase(fetchArtists.fulfilled, (state, action) => {
-        state.status = Status.FULFILLED
+        state.status = STATUS.FULFILLED
         state.data = action.payload
         state.error = null
       })
       .addCase(fetchArtists.rejected, (state, action) => {
-        state.status = Status.REJECTED
+        state.status = STATUS.REJECTED
         state.data = {} as Artist
         state.error = action.payload as string
       })

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Spinner } from 'components'
 import useAlbumViewer from './useAlbumViewer'
 import { Album } from 'store/slices/albumSlice'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 type AlbumViewerProps = {
   selectedArtist: string
@@ -29,19 +29,19 @@ const AlbumViewer = ({
       <AlbumResultTitle data-testid="album-results-title">
         Albums
       </AlbumResultTitle>
-      {status === Status.PENDING && (
+      {status === STATUS.PENDING && (
         <SpinnerContainer data-testid="spinner">
           <Spinner />
         </SpinnerContainer>
       )}
       {/* Similar to NotFound-Component, add Retry-Component on Error */}
-      {total === 0 && status === Status.FULFILLED && (
+      {total === 0 && status === STATUS.FULFILLED && (
         <NotFound data-testid="not-found">
           Album results not found for {selectedArtist}, try with different
           artist name
         </NotFound>
       )}
-      {status === Status.FULFILLED && albums.length > 0 && (
+      {status === STATUS.FULFILLED && albums.length > 0 && (
         <Albums data-testid="album-results">
           {albums.map(({ id, title, cover }) => (
             <AlbumItemContainer key={id}>

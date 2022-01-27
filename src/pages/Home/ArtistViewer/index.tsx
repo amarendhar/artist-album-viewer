@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Clear } from 'components'
 import useArtistViewer from './useArtistViewer'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 type ArtistViewerProps = {
   setSelectedArtist: React.Dispatch<React.SetStateAction<string>>
@@ -31,14 +31,14 @@ const ArtistViewer = ({ setSelectedArtist }: ArtistViewerProps) => {
           value={text}
           onChange={onChange}
         />
-        {status === Status.PENDING && <Spinner data-testid="spinner" />}
+        {status === STATUS.PENDING && <Spinner data-testid="spinner" />}
         {/* Similar to NotFound-Component, add Retry-Component on Error */}
-        {total === 0 && status === Status.FULFILLED && (
+        {total === 0 && status === STATUS.FULFILLED && (
           <NotFound data-testid="not-found">
             Search results not found for {text}, try with different artist name
           </NotFound>
         )}
-        {status === Status.FULFILLED && artists.length > 0 && (
+        {status === STATUS.FULFILLED && artists.length > 0 && (
           <>
             {/* Except type-submit-button all other buttons should have type-button-attr when a form has multiple buttons to trigger onSubmit handler properly */}
             <Clear onClear={onClear} />

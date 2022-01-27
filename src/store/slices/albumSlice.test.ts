@@ -1,18 +1,18 @@
 import albumReducer, { AlbumState, Album, fetchAlbums } from './albumSlice'
 import mockAlbums from 'mocks/mockAlbums'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 describe('album reducer', () => {
   const initialState: AlbumState = {
     data: {} as Album,
-    status: Status.IDLE,
+    status: STATUS.IDLE,
     error: null,
   }
 
   it('Should handle initial-state', () => {
     expect(albumReducer(undefined, { type: 'unknown' })).toEqual({
       data: {},
-      status: Status.IDLE,
+      status: STATUS.IDLE,
       error: null,
     })
   })
@@ -24,7 +24,7 @@ describe('album reducer', () => {
 
     expect(actual).toEqual({
       data: {},
-      status: Status.PENDING,
+      status: STATUS.PENDING,
       error: null,
     })
   })
@@ -37,7 +37,7 @@ describe('album reducer', () => {
 
     expect(actual).toEqual({
       data: mockAlbums,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       error: null,
     })
   })
@@ -52,7 +52,7 @@ describe('album reducer', () => {
 
     expect(actual).toEqual({
       data: {},
-      status: Status.REJECTED,
+      status: STATUS.REJECTED,
       error: 'Data not found',
     })
   })

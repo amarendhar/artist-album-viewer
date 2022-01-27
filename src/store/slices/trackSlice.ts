@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AppState } from 'store'
-import { Status } from 'types'
+import { API_URL } from 'utils/constants'
+import { STATUS } from 'types'
 
 export type Track = {
   data: {
@@ -32,14 +33,14 @@ export type Track = {
 }
 
 export type TrackState = {
-  status: Status
+  status: STATUS
   data: Track
   error: string | null | undefined
 }
 
 const initialState: TrackState = {
   data: {} as Track,
-  status: Status.IDLE,
+  status: STATUS.IDLE,
   error: null,
 }
 
@@ -53,7 +54,7 @@ export const fetchTracks = createAsyncThunk(
   async (trackQuery: string, { rejectWithValue }) => {
     try {
       // const response = await fetch(`https://api.deezer.com/search/track/?q=eminem&output=json`)
-      const response = await fetch(`/album/${trackQuery}/tracks`)
+      const response = await fetch(`${API_URL}/album/${trackQuery}/tracks`)
       const data = await response.json()
 
       if (!data || data?.errorMessage) {
@@ -78,16 +79,16 @@ export const trackSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchTracks.pending, (state) => {
-        state.status = Status.PENDING
+        state.status = STATUS.PENDING
         state.error = null
       })
       .addCase(fetchTracks.fulfilled, (state, action) => {
-        state.status = Status.FULFILLED
+        state.status = STATUS.FULFILLED
         state.data = action.payload
         state.error = null
       })
       .addCase(fetchTracks.rejected, (state, action) => {
-        state.status = Status.REJECTED
+        state.status = STATUS.REJECTED
         state.data = {} as Track
         state.error = action.payload as string
       })

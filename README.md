@@ -34,6 +34,15 @@ To run prettier & test-cases for the staged-files.
   - https://api.deezer.com/album/:albumId/tracks
 
 ## Deploy github-pages
+  - https://create-react-app.dev/docs/deployment/#github-pages
+    - Added `homepage: https://<usernmae>.github.io/<repository-name>` i.e.e `homepage: https://amarendhar.github.io/artist-album-viewer` in package.json file.
+    - Added `gh-pages` npm-package.
+    - Added `predeploy` & `deploy` scripts in `package.json`.
+    - `npm run deploy` create a `build-folder` and push it to `gh-pages` branch.
+    - `npm run deploy` will use `predeploy-script` to create `build-folder`.
+    - `npm run deploy` will create `gh-pages` branch if no already existed & push it with only `build-folder` contents.
+    - `gh-pages` branch created by `npm run deploy` will have only `build-folder` contents.
+
   - https://dev.to/kouts/deploy-storybook-to-github-pages-3bij
 
 ## Notes

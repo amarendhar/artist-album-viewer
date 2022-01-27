@@ -4,14 +4,14 @@ import { rest } from 'msw'
 import { server } from 'mocks/server'
 import useAlbumViewer from './useAlbumViewer'
 import mockAlbums from 'mocks/mockAlbums'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 describe('useAlbumViewer', () => {
   const selectedArtist = ''
   const setSelectedAlbum = jest.fn()
   const defaultProps = {
     onSelectAlbum: expect.any(Function),
-    status: Status.IDLE,
+    status: STATUS.IDLE,
     error: null,
     albums: [],
     total: null,
@@ -38,7 +38,7 @@ describe('useAlbumViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       albums: mockAlbums.data,
       total: mockAlbums.data.length,
     })
@@ -68,7 +68,7 @@ describe('useAlbumViewer', () => {
     await waitFor(() => {
       expect(result.current).toEqual({
         ...defaultProps,
-        status: Status.REJECTED,
+        status: STATUS.REJECTED,
         error: 'Data not found',
       })
     })

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { fetchArtists, selectArtist, Artist } from 'store/slices/artistSlice'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 export const DEBOUNCE_DELAY = 500
 
@@ -14,7 +14,7 @@ type UseArtistViewerReturnProps = {
   onClear: () => void
   onSubmit: (e: React.SyntheticEvent) => void
   onSelectArtist: (selectedArtist: string) => void
-  status: Status
+  status: STATUS
   error: string | null | undefined
   text: string
   artists: Artist['data']
@@ -74,7 +74,7 @@ const useArtistViewer = ({
   )
 
   const isFetchCompleted =
-    text === queryText && queryText && status === Status.FULFILLED
+    text === queryText && queryText && status === STATUS.FULFILLED
 
   return {
     onChange,

@@ -2,14 +2,14 @@ import { useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { fetchTracks, selectTrack, Track } from 'store/slices/trackSlice'
 import { Album } from 'store/slices/albumSlice'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 type UseTrackViewerProps = {
   selectedAlbum: Partial<Album['data'][0]>
 }
 
 type UseTrackViewerReturnProps = {
-  status: Status
+  status: STATUS
   error: string | null | undefined
   tracks: Track['data']
   total: number | null
@@ -27,7 +27,7 @@ const useTrackViewer = ({
     }
   }, [selectedAlbum?.id, dispatch])
 
-  const isFetchCompleted = selectedAlbum?.id && status === Status.FULFILLED
+  const isFetchCompleted = selectedAlbum?.id && status === STATUS.FULFILLED
 
   return {
     status,

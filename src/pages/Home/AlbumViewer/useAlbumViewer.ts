@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { fetchAlbums, selectAlbum, Album } from 'store/slices/albumSlice'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 type UseAlbumViewerProps = {
   selectedArtist: string
@@ -12,7 +12,7 @@ type UseAlbumViewerProps = {
 
 type UseAlbumViewerReturnProps = {
   onSelectAlbum: (selectedAlbum: Partial<Album['data'][0]>) => void
-  status: Status
+  status: STATUS
   error: string | null | undefined
   albums: Album['data']
   total: number | null
@@ -38,7 +38,7 @@ const useAlbumViewer = ({
     [setSelectedAlbum]
   )
 
-  const isFetchCompleted = selectedArtist && status === Status.FULFILLED
+  const isFetchCompleted = selectedArtist && status === STATUS.FULFILLED
 
   return {
     onSelectAlbum,

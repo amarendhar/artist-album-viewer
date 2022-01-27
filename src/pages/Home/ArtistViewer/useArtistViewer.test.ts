@@ -4,7 +4,7 @@ import { rest } from 'msw'
 import { server } from 'mocks/server'
 import useArtistViewer, { DEBOUNCE_DELAY } from './useArtistViewer'
 import mockArtists from 'mocks/mockArtists'
-import { Status } from 'types'
+import { STATUS } from 'types'
 
 describe('useArtistViewer', () => {
   const setSelectedArtist = jest.fn()
@@ -13,7 +13,7 @@ describe('useArtistViewer', () => {
     onClear: expect.any(Function),
     onSubmit: expect.any(Function),
     onSelectArtist: expect.any(Function),
-    status: Status.IDLE,
+    status: STATUS.IDLE,
     error: null,
     text: '',
     artists: [],
@@ -43,7 +43,7 @@ describe('useArtistViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.PENDING,
+      status: STATUS.PENDING,
       text: 'Eminem',
     })
 
@@ -51,7 +51,7 @@ describe('useArtistViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       text: 'Eminem',
       artists: mockArtists.data,
       total: mockArtists.data.length,
@@ -93,7 +93,7 @@ describe('useArtistViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.PENDING,
+      status: STATUS.PENDING,
       text: 'Eminem Eminem Eminem',
     })
 
@@ -101,7 +101,7 @@ describe('useArtistViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       text: 'Eminem Eminem Eminem',
       artists: mockArtists.data,
       total: mockArtists.data.length,
@@ -122,7 +122,7 @@ describe('useArtistViewer', () => {
 
     expect(result.current).toEqual({
       ...defaultProps,
-      status: Status.FULFILLED,
+      status: STATUS.FULFILLED,
       text: 'Eminem',
       artists: mockArtists.data,
       total: mockArtists.data.length,
@@ -163,7 +163,7 @@ describe('useArtistViewer', () => {
     await waitFor(() => {
       expect(result.current).toEqual({
         ...defaultProps,
-        status: Status.REJECTED,
+        status: STATUS.REJECTED,
         error: 'Data not found',
         text: 'Eminem',
       })
