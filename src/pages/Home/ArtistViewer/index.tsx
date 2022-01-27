@@ -104,6 +104,10 @@ const Input = styled.input`
   color: #8b8b8b;
 
   font-size: ${({ theme }) => theme.fontSizes.lg}px;
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    font-size: ${({ theme }) => theme.fontSizes.md}px;
+  }
 `
 
 const spin = keyframes`
@@ -145,6 +149,10 @@ const SearchResults = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.lg}px;
 
   z-index: 999;
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    font-size: ${({ theme }) => theme.fontSizes.md}px;
+  }
 `
 
 const Arrow = styled.div`
@@ -210,5 +218,10 @@ const Button = styled.button`
   &:hover,
   &:focus {
     opacity: 0.8;
+  }
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    font-size: ${({ theme }) => theme.fontSizes.sm}px;
+    padding: 16px;
   }
 `

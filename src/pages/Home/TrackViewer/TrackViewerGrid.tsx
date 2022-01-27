@@ -134,6 +134,13 @@ const AlbumTitle = styled.h3`
 
   text-align: center;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    display: flex;
+    align-items: center;
+
+    margin-top: 0;
+  }
 `
 
 const TrackResults = styled.div`
@@ -147,6 +154,11 @@ const TrackResults = styled.div`
 
   color: #8b8b8b;
   font-size: ${({ theme }) => theme.fontSizes.lg}px;
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    margin-top: ${({ theme }) => theme.space.md}px;
+    overflow-x: auto;
+  }
 `
 
 const Tracks = styled.div`
@@ -160,11 +172,6 @@ const Tracks = styled.div`
     background-color: #2c2c2c;
   }
 
-  span:first-child {
-    padding-left: 150px;
-    border: 0;
-  }
-
   span {
     display: inline-block;
 
@@ -173,11 +180,23 @@ const Tracks = styled.div`
 
     font-size: ${({ theme }) => theme.fontSizes.md}px;
     text-align: left;
-  }
 
-  span:nth-child(4),
-  span:nth-child(5) {
-    text-align: center;
+    &:first-child {
+      padding-left: 150px;
+      border: 0;
+    }
+
+    &:nth-child(4),
+    &:nth-child(5) {
+      text-align: center;
+    }
+
+    ${({ theme }) => theme.mediaQueries['<md']} {
+      padding: ${({ theme }) => theme.space.md}px 5px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 `
 
@@ -185,6 +204,10 @@ const TrackRowHeader = styled.div`
   display: grid;
   grid-template-columns: 180px repeat(4, minmax(100px, 1fr));
   color: white;
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    grid-template-columns: 40px repeat(4, minmax(0px, 1fr));
+  }
 `
 
 const TrackItem = styled.a`
@@ -197,5 +220,9 @@ const TrackItem = styled.a`
   &:hover,
   &:focus {
     color: rgba(255, 255, 255, 1);
+  }
+
+  ${({ theme }) => theme.mediaQueries['<md']} {
+    grid-template-columns: 40px repeat(4, minmax(0px, 1fr));
   }
 `
