@@ -14,6 +14,10 @@ type TrackViewerProps = {
   >
 }
 
+/**
+ * Highlight selected-track with blue-color and show music-anim-svg.
+ */
+
 const TrackViewer = ({ selectedAlbum, setSelectedTrack }: TrackViewerProps) => {
   const { status, tracks, total } = useTrackViewer({ selectedAlbum })
 

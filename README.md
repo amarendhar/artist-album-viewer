@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+## GH-Pages / Preview link
+[https://amarendhar.github.io/artist-album-viewer//](https://amarendhar.github.io/artist-album-viewer//)
+
 Use `Node >= v14` to support all the new libraries such as `lint-staged`.
 ## Available Scripts
 
