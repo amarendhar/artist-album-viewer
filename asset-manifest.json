@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/artist-album-viewer/static/js/main.63d9809e.js",
+    "main.js": "/artist-album-viewer/static/js/main.58e37e8a.js",
     "index.html": "/artist-album-viewer/index.html",
-    "main.63d9809e.js.map": "/artist-album-viewer/static/js/main.63d9809e.js.map"
+    "main.58e37e8a.js.map": "/artist-album-viewer/static/js/main.58e37e8a.js.map"
   },
   "entrypoints": [
-    "static/js/main.63d9809e.js"
+    "static/js/main.58e37e8a.js"
   ]
 }
