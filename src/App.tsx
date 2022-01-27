@@ -10,7 +10,7 @@ const App = () => {
       <Header />
       <Container>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route path="/" component={Home} />
           <Route path="*" component={NotFound} />
         </Switch>
       </Container>
