@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from 'store/hooks'
 import { fetchArtists, selectArtist, Artist } from 'store/slices/artistSlice'
+import useClickOutside from 'hooks/useClickOutside'
 import { STATUS } from 'types'
 
 export const DEBOUNCE_DELAY = 500
 
 type UseArtistViewerProps = {
   setSelectedArtist: React.Dispatch<React.SetStateAction<string>>
+  searchRef: React.RefObject<HTMLDivElement>
 }
 
 type UseArtistViewerReturnProps = {
@@ -24,6 +26,7 @@ type UseArtistViewerReturnProps = {
 // ToDo: Add return-type
 const useArtistViewer = ({
   setSelectedArtist,
+  searchRef,
 }: UseArtistViewerProps): UseArtistViewerReturnProps => {
   const { status, error, data } = useAppSelector(selectArtist)
   const dispatch = useAppDispatch()
@@ -72,6 +75,10 @@ const useArtistViewer = ({
     },
     [setSelectedArtist]
   )
+
+  useClickOutside(searchRef, () => {
+    setText('')
+  })
 
   const isFetchCompleted =
     text === queryText && queryText && status === STATUS.FULFILLED

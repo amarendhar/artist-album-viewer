@@ -29,8 +29,9 @@ const radii: Record<'sm' | 'md' | 'lg', number> = {
   lg: 10,
 }
 
-const shadows: Record<'header' | 'box', string> = {
+const shadows: Record<'header' | 'box' | 'popup', string> = {
   header: '0 0 5px 0 black',
+  popup: '0 0 10px 5px black',
   box: '0px 3px 5px 0px rgb(0 0 0 / 20%)',
 }
 

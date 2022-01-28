@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Clear } from 'components'
 import useArtistViewer from './useArtistViewer'
@@ -9,6 +9,7 @@ type ArtistViewerProps = {
 }
 
 const ArtistViewer = ({ setSelectedArtist }: ArtistViewerProps) => {
+  const searchRef = useRef<HTMLDivElement | null>(null)
   const {
     onChange,
     onClear,
@@ -19,7 +20,7 @@ const ArtistViewer = ({ setSelectedArtist }: ArtistViewerProps) => {
     text,
     artists,
     total,
-  } = useArtistViewer({ setSelectedArtist })
+  } = useArtistViewer({ setSelectedArtist, searchRef })
 
   return (
     <Container onSubmit={onSubmit} data-testid="artist-viewer">
@@ -27,7 +28,7 @@ const ArtistViewer = ({ setSelectedArtist }: ArtistViewerProps) => {
         <Input
           data-testid="search-input"
           type="text"
-          placeholder="Search Artist"
+          placeholder="Enter a Singer or an Artist name"
           value={text}
           onChange={onChange}
         />
@@ -42,7 +43,7 @@ const ArtistViewer = ({ setSelectedArtist }: ArtistViewerProps) => {
           <>
             {/* Except type-submit-button all other buttons should have type-button-attr when a form has multiple buttons to trigger onSubmit handler properly */}
             <Clear onClear={onClear} />
-            <SearchResults data-testid="search-results">
+            <SearchResults data-testid="search-results" ref={searchRef}>
               <Arrow />
               <Title data-testid="search-results-title">Search results</Title>
               <Artists>
@@ -144,9 +145,10 @@ const SearchResults = styled.div`
   padding: ${({ theme }) => theme.space.lg}px;
   padding-top: 0;
 
+  font-size: ${({ theme }) => theme.fontSizes.lg}px;
   background-color: #2c2c2c;
   color: #8b8b8b;
-  font-size: ${({ theme }) => theme.fontSizes.lg}px;
+  box-shadow: ${({ theme }) => theme.shadows.popup};
 
   z-index: 999;
 

@@ -8,6 +8,7 @@ import { STATUS } from 'types'
 
 describe('useArtistViewer', () => {
   const setSelectedArtist = jest.fn()
+  const searchRef = { current: null }
   const defaultProps = {
     onChange: expect.any(Function),
     onClear: expect.any(Function),
@@ -25,14 +26,16 @@ describe('useArtistViewer', () => {
   })
 
   it('Should return initial state', () => {
-    const { result } = renderHook(() => useArtistViewer({ setSelectedArtist }))
+    const { result } = renderHook(() =>
+      useArtistViewer({ setSelectedArtist, searchRef })
+    )
 
     expect(result.current).toEqual(defaultProps)
   })
 
   it('Should fetch artists-data onChange of text', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useArtistViewer({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist, searchRef })
     )
 
     act(() => {
@@ -60,7 +63,7 @@ describe('useArtistViewer', () => {
 
   it('Should fetch artists-data only once with last-updated-text, when multiple times text is changed within DEBOUNCE_DELAY', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useArtistViewer({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist, searchRef })
     )
 
     act(() => {
@@ -110,7 +113,7 @@ describe('useArtistViewer', () => {
 
   it('Should invoke setSelectedArtist, when an artist-item is selected from the list', async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useArtistViewer({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist, searchRef })
     )
 
     act(() => {
@@ -151,7 +154,7 @@ describe('useArtistViewer', () => {
     )
 
     const { result, waitForNextUpdate } = renderHook(() =>
-      useArtistViewer({ setSelectedArtist })
+      useArtistViewer({ setSelectedArtist, searchRef })
     )
 
     act(() => {

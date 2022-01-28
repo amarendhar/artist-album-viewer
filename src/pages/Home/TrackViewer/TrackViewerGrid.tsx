@@ -138,6 +138,7 @@ const AlbumTitle = styled.h3`
   ${({ theme }) => theme.mediaQueries['<md']} {
     display: flex;
     align-items: center;
+    flex: 1;
 
     margin-top: 0;
   }
